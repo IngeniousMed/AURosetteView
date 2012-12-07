@@ -23,9 +23,10 @@
 @synthesize on = _on;
 @synthesize wheelButton = _wheelButton;
 
-#define kOnImageName @"/Bundle.bundle/Resources/rosetta_on.png"
-#define kOffImageName @"/Bundle.bundle/Resources/rosetta_off.png"
-#define kLeafImageName @"/Bundle.bundle/Resources/rosetta_leaf.png"
+#define kOnImageName @"buttonAdd.png"
+#define kOffImageName @"buttonAdd.png"
+//#define kLeafImageName @"/Bundle.bundle/Resources/rosetta_leaf.png"
+#define kLeafImageName @"rosetta_leaf.png"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)initWithItems:(NSArray*)items {
@@ -73,8 +74,8 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)layoutSubviews {
     CGRect rect = self.bounds;
-    _wheelButton.frame = CGRectMake(CGRectGetMidX(rect) - 33.0f, 
-                                    CGRectGetMidY(rect) - 33.0f, 66.0, 66.0f);
+    _wheelButton.frame = CGRectMake(CGRectGetMidX(rect) - 29.0f,
+                                    CGRectGetMidY(rect) - 29.0f, 58.0, 58.0f);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -137,10 +138,14 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 static inline CGFloat DegreesToRadians(CGFloat inValue) {
+    return (inValue * (180.0f / (CGFloat)M_PI));
+}
+
+static inline CGFloat RadiansToDegrees(CGFloat inValue) {
     return (inValue * ((CGFloat)M_PI / 180.0f));
 }
 
-CGFloat const kApertureAngle = 53.0f;
+CGFloat const kApertureAngle = 43.0f;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)addImages {
@@ -206,7 +211,7 @@ CGFloat const kApertureAngle = 53.0f;
         layer.anchorPoint = CGPointMake(0.0f, 0.5f);
         layer.position = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
         layer.transform = CATransform3DMakeScale(0.15f, 0.15f, 1.0f);
-        
+		
         // add layer
         [self.layer addSublayer:layer];
         [_leavesLayers addObject:layer];
@@ -264,14 +269,17 @@ CGFloat const kApertureAngle = 53.0f;
         
         CGPoint point = [tapGestureRecognizer locationInView:self];
         if (CGPathContainsPoint(bezierPath.CGPath, NULL, point, NO)) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
             [obj.target performSelector:obj.action withObject:self];
+#pragma clang diagnostic pop
         }
     }];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)expand {
-    CGFloat angle_ = DegreesToRadians(kApertureAngle);
+    //CGFloat angle_ = DegreesToRadians(kApertureAngle);
     
     [CATransaction begin];
     
@@ -279,9 +287,16 @@ CGFloat const kApertureAngle = 53.0f;
     for (NSInteger i=0; i<[_items count]; i++) {
         
         CALayer* layer = nil;
-        CGFloat angle = - angle_ + angle_ * i;
-        CATransform3D transform = CATransform3DConcat(CATransform3DMakeScale(1.0f, 1.0f, 1.0f), 
-                                                      CATransform3DMakeRotation(angle, 0.0f, 0.0f, 1.0f));
+        //CGFloat angle = (angle_ * i) + DegreesToRadians(0.4);
+		CGFloat angle = (-1.0 * (M_PI / 2.0) * i);
+		if (i == 0) {
+			angle = ((-1.0 * (M_PI / 2.0)) / 3);
+		} else if (i == 2) {
+			angle = angle + ((1.0 * (M_PI / 2.0)) / 3);
+		}
+		NSLog(@"Angle: %@", @(RadiansToDegrees(angle)));
+		
+		CATransform3D transform = CATransform3DMakeRotation(angle, 0.0f, 0.0f, 1.0f);
         
         CABasicAnimation* leafAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
         [leafAnimation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
