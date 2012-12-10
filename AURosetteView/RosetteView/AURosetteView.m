@@ -294,7 +294,6 @@ CGFloat const kApertureAngle = 43.0f;
 		} else if (i == 2) {
 			angle = angle + ((1.0 * (M_PI / 2.0)) / 3);
 		}
-		NSLog(@"Angle: %@", @(RadiansToDegrees(angle)));
 		
 		CATransform3D transform = CATransform3DMakeRotation(angle, 0.0f, 0.0f, 1.0f);
         
@@ -314,7 +313,7 @@ CGFloat const kApertureAngle = 43.0f;
         [scaleImageAnimation setFillMode:kCAFillModeForwards]; 
         [scaleImageAnimation setRemovedOnCompletion: NO];
         
-        CGPoint point = CGPointMake(0.65*97.0f * cos(angle) + CGRectGetMidX(self.bounds), 0.65*97.0f * sin(angle) + CGRectGetMidY(self.bounds));
+        CGPoint point = CGPointMake(0.85*97.0f * cos(angle) + CGRectGetMidX(self.bounds), 0.85*97.0f * sin(angle) + CGRectGetMidY(self.bounds));
         CABasicAnimation* positionImageAnimation = [CABasicAnimation animationWithKeyPath:@"position"];
         [positionImageAnimation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
         [positionImageAnimation setToValue:[NSValue valueWithCGPoint:point]];
