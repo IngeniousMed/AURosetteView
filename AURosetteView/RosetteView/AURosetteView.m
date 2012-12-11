@@ -209,7 +209,7 @@ CGFloat const kApertureAngle = 43.0f;
         layer.contents = (id)image.CGImage;
         layer.frame = CGRectMake(0.0f, 0.0f, image.size.width, image.size.height);
         layer.anchorPoint = CGPointMake(0.0f, 0.5f);
-        layer.position = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
+        layer.position = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds) - 17.0);
         layer.transform = CATransform3DMakeScale(0.15f, 0.15f, 1.0f);
 		
         // add layer
@@ -313,7 +313,7 @@ CGFloat const kApertureAngle = 43.0f;
         [scaleImageAnimation setFillMode:kCAFillModeForwards]; 
         [scaleImageAnimation setRemovedOnCompletion: NO];
         
-        CGPoint point = CGPointMake(0.85*97.0f * cos(angle) + CGRectGetMidX(self.bounds), 0.85*97.0f * sin(angle) + CGRectGetMidY(self.bounds));
+        CGPoint point = CGPointMake(0.85*97.0f * cos(angle) + CGRectGetMidX(self.bounds), 0.85*97.0f * sin(angle) + CGRectGetMidY(self.bounds) - 17.0);
         CABasicAnimation* positionImageAnimation = [CABasicAnimation animationWithKeyPath:@"position"];
         [positionImageAnimation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
         [positionImageAnimation setToValue:[NSValue valueWithCGPoint:point]];
