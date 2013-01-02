@@ -30,7 +30,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)initWithItems:(NSArray*)items {
-    self = [super initWithFrame:CGRectMake(0.0f, 0.0f, 199.0f, 199.0f)];
+    self = [super initWithFrame:CGRectMake(0.0f, 0.0f, 268.0f, 268.0f)];
     if (self) {
         _items = items;
 
@@ -225,39 +225,49 @@ CGFloat const kApertureAngle = 43.0f;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)drawRect:(CGRect)rect {    
-//    CGContextRef ctx = UIGraphicsGetCurrentContext();
-//    CGContextSetStrokeColorWithColor(ctx, [UIColor blueColor].CGColor);
-//    CGContextSetFillColorWithColor(ctx, [UIColor blueColor].CGColor);
-//
-//    CGFloat step = DegreesToRadians(kApertureAngle);
-//    CGPoint pointA = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
-//    
-//    for (NSInteger i=0; i<[self count]; i++) {
-//        CGFloat width = 105.0f;
-//        CGFloat angle = step * (CGFloat)i - (step * 1.5);
-//        CGPoint pointB = CGPointMake(pointA.x + cos(angle) * width, pointA.y + sin(angle) * width);
-//        CGPoint pointC = CGPointMake(pointA.x + cos(angle + step) * width, pointA.y + sin(angle + step) * width);
-//
-//        UIBezierPath* bezierPath = [UIBezierPath bezierPath];
-//        [bezierPath moveToPoint: pointA];
-//        [bezierPath addLineToPoint:pointB];
-//        [bezierPath addLineToPoint:pointC];
-//        [bezierPath closePath];
-//
-//        CGContextAddPath(ctx, bezierPath.CGPath);
-//        CGContextFillPath(ctx);        
-//    }
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    CGContextSetStrokeColorWithColor(ctx, [UIColor blueColor].CGColor);
+    CGContextSetFillColorWithColor(ctx, [UIColor blueColor].CGColor);
+
+    CGFloat step = ((-1.0 * (M_PI / 2.0)) / 3);
+    CGPoint pointA = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
+    
+    for (NSInteger i=0; i<[_items count]; i++) {
+        CGFloat width = 134.0f;
+		CGFloat angle = (-1.0 * (M_PI / 2.0) * i);
+		if (i == 0) {
+			angle = ((-1.0 * (M_PI / 2.0)) / 3);
+		} else if (i == 2) {
+			angle = angle + ((1.0 * (M_PI / 2.0)) / 3);
+		}
+        CGPoint pointB = CGPointMake(pointA.x + cos(angle) * width, pointA.y + sin(angle) * width);
+        CGPoint pointC = CGPointMake(pointA.x + cos(angle + step) * width, pointA.y + sin(angle + step) * width);
+
+        UIBezierPath* bezierPath = [UIBezierPath bezierPath];
+        [bezierPath moveToPoint: pointA];
+        [bezierPath addLineToPoint:pointB];
+        [bezierPath addLineToPoint:pointC];
+        [bezierPath closePath];
+
+        CGContextAddPath(ctx, bezierPath.CGPath);
+        CGContextFillPath(ctx);        
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)tapAction:(UITapGestureRecognizer*)tapGestureRecognizer {
     
-    CGFloat step = DegreesToRadians(kApertureAngle);
+    CGFloat step = ((-1.0 * (M_PI / 2.0)) / 3);
     CGPoint pointA = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
     
     [_items enumerateObjectsUsingBlock:^(AURosetteItem* obj, NSUInteger idx, BOOL *stop) {
-        CGFloat width = 105.0f;
-        CGFloat angle = step * (CGFloat)idx - (step * 1.5);
+        CGFloat width = 134.0f;
+		CGFloat angle = (-1.0 * (M_PI / 2.0) * idx);
+		if (idx == 0) {
+			angle = ((-1.0 * (M_PI / 2.0)) / 3);
+		} else if (idx == 2) {
+			angle = angle + ((1.0 * (M_PI / 2.0)) / 3);
+		}
         CGPoint pointB = CGPointMake(pointA.x + cos(angle) * width, pointA.y + sin(angle) * width);
         CGPoint pointC = CGPointMake(pointA.x + cos(angle + step) * width, pointA.y + sin(angle + step) * width);
         
