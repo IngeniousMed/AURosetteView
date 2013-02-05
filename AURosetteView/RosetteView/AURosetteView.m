@@ -23,14 +23,14 @@
 @synthesize on = _on;
 @synthesize wheelButton = _wheelButton;
 
-#define kOnImageName @"buttonAdd.png"
-#define kOffImageName @"buttonAdd.png"
+#define kOnImageName @"button_orb.png"
+#define kOffImageName @"button_orb.png"
 //#define kLeafImageName @"/Bundle.bundle/Resources/rosetta_leaf.png"
 #define kLeafImageName @"rosetta_leaf.png"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)initWithItems:(NSArray*)items {
-    self = [super initWithFrame:CGRectMake(0.0f, 0.0f, 268.0f, 268.0f)];
+    self = [super initWithFrame:CGRectMake(0.0f, 0.0f, 168.0f, 168.0f)];
     if (self) {
         _items = items;
 
@@ -74,8 +74,8 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)layoutSubviews {
     CGRect rect = self.bounds;
-    _wheelButton.frame = CGRectMake(CGRectGetMidX(rect) - 29.0f,
-                                    CGRectGetMidY(rect) - 29.0f, 58.0, 58.0f);
+    _wheelButton.frame = CGRectMake(CGRectGetMidX(rect) - 37.5f,
+                                    CGRectGetMidY(rect) - 33.5f, 75.0, 67.0f);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -209,7 +209,7 @@ CGFloat const kApertureAngle = 43.0f;
         layer.contents = (id)image.CGImage;
         layer.frame = CGRectMake(0.0f, 0.0f, image.size.width, image.size.height);
         layer.anchorPoint = CGPointMake(0.0f, 0.5f);
-        layer.position = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds) - 17.0);
+        layer.position = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds) - 11.0);
         layer.transform = CATransform3DMakeScale(0.15f, 0.15f, 1.0f);
 		
         // add layer
@@ -223,36 +223,36 @@ CGFloat const kApertureAngle = 43.0f;
     [self toggleWithAnimation:YES];    
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)drawRect:(CGRect)rect {    
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGContextSetStrokeColorWithColor(ctx, [UIColor blueColor].CGColor);
-    CGContextSetFillColorWithColor(ctx, [UIColor blueColor].CGColor);
-
-    CGFloat step = ((-1.0 * (M_PI / 2.0)) / 3);
-    CGPoint pointA = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
-    
-    for (NSInteger i=0; i<[_items count]; i++) {
-        CGFloat width = 134.0f;
-		CGFloat angle = (-1.0 * (M_PI / 2.0) * i);
-		if (i == 0) {
-			angle = ((-1.0 * (M_PI / 2.0)) / 3);
-		} else if (i == 2) {
-			angle = angle + ((1.0 * (M_PI / 2.0)) / 3);
-		}
-        CGPoint pointB = CGPointMake(pointA.x + cos(angle) * width, pointA.y + sin(angle) * width);
-        CGPoint pointC = CGPointMake(pointA.x + cos(angle + step) * width, pointA.y + sin(angle + step) * width);
-
-        UIBezierPath* bezierPath = [UIBezierPath bezierPath];
-        [bezierPath moveToPoint: pointA];
-        [bezierPath addLineToPoint:pointB];
-        [bezierPath addLineToPoint:pointC];
-        [bezierPath closePath];
-
-        CGContextAddPath(ctx, bezierPath.CGPath);
-        CGContextFillPath(ctx);        
-    }
-}
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//- (void)drawRect:(CGRect)rect {    
+//    CGContextRef ctx = UIGraphicsGetCurrentContext();
+//    CGContextSetStrokeColorWithColor(ctx, [UIColor blueColor].CGColor);
+//    CGContextSetFillColorWithColor(ctx, [UIColor blueColor].CGColor);
+//
+//    CGFloat step = ((-1.0 * (M_PI / 2.0)) / 3);
+//    CGPoint pointA = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
+//    
+//    for (NSInteger i=0; i<[_items count]; i++) {
+//        CGFloat width = 134.0f;
+//		CGFloat angle = (-1.0 * (M_PI / 2.0) * i);
+//		if (i == 0) {
+//			angle = ((-1.0 * (M_PI / 2.0)) / 3);
+//		} else if (i == 2) {
+//			angle = angle + ((1.0 * (M_PI / 2.0)) / 3);
+//		}
+//        CGPoint pointB = CGPointMake(pointA.x + cos(angle) * width, pointA.y + sin(angle) * width);
+//        CGPoint pointC = CGPointMake(pointA.x + cos(angle + step) * width, pointA.y + sin(angle + step) * width);
+//
+//        UIBezierPath* bezierPath = [UIBezierPath bezierPath];
+//        [bezierPath moveToPoint: pointA];
+//        [bezierPath addLineToPoint:pointB];
+//        [bezierPath addLineToPoint:pointC];
+//        [bezierPath closePath];
+//
+//        CGContextAddPath(ctx, bezierPath.CGPath);
+//        CGContextFillPath(ctx);        
+//    }
+//}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)tapAction:(UITapGestureRecognizer*)tapGestureRecognizer {
@@ -323,7 +323,7 @@ CGFloat const kApertureAngle = 43.0f;
         [scaleImageAnimation setFillMode:kCAFillModeForwards]; 
         [scaleImageAnimation setRemovedOnCompletion: NO];
         
-        CGPoint point = CGPointMake(0.85*97.0f * cos(angle) + CGRectGetMidX(self.bounds), 0.85*97.0f * sin(angle) + CGRectGetMidY(self.bounds) - 17.0);
+        CGPoint point = CGPointMake(0.85*97.0f * cos(angle) + CGRectGetMidX(self.bounds), 0.85*97.0f * sin(angle) + CGRectGetMidY(self.bounds) - 11.0);
         CABasicAnimation* positionImageAnimation = [CABasicAnimation animationWithKeyPath:@"position"];
         [positionImageAnimation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
         [positionImageAnimation setToValue:[NSValue valueWithCGPoint:point]];
