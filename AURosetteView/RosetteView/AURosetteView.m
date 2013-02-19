@@ -22,6 +22,8 @@
 @implementation AURosetteView
 @synthesize on = _on;
 @synthesize wheelButton = _wheelButton;
+@synthesize offImage = _offImage;
+@synthesize onImage = _onImage;
 
 #define kOnImageName @"button_orb.png"
 #define kOffImageName @"button_orb.png"
@@ -33,12 +35,12 @@
     self = [super initWithFrame:CGRectMake(0.0f, 0.0f, 168.0f, 168.0f)];
     if (self) {
         _items = items;
-
+		
         // set default
         _on = NO;
         
         // recognize taps when wheel is expanded
-        _tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self 
+        _tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                         action:@selector(tapAction:)];
         _tapGestureRecognizer.delegate = self;
         [self addGestureRecognizer:_tapGestureRecognizer];
@@ -53,12 +55,9 @@
         // add images
         [self addImages];
         
-        // get default off image
-        UIImage* image = [UIImage imageNamed:kOffImageName];
-        
         // add button
         _wheelButton = [[UIButton alloc] init];
-        [_wheelButton setImage:image forState:UIControlStateNormal];
+        [_wheelButton setImage:self.offImage forState:UIControlStateNormal];
         [self addSubview:_wheelButton];
         
         // add target
@@ -67,7 +66,7 @@
         // Others settings
         [self setExclusiveTouch:NO];
         [self setBackgroundColor:[UIColor clearColor]];
-}
+	}
     return self;
 }
 
@@ -80,7 +79,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)toggleWithAnimation:(BOOL)animated {
-    [self setOn:!_on animated:animated];    
+    [self setOn:!_on animated:animated];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,19 +87,17 @@
     _on = on;
     
     if (_on) {
-        // get default on image
-        UIImage* image = [UIImage imageNamed:kOnImageName];
-        [_wheelButton setImage:image forState:UIControlStateNormal];
+        
+        [_wheelButton setImage:self.onImage forState:UIControlStateNormal];
         
         // expand rosette
         [self expand];
         
         // enable tap gesture recognizer
-        _tapGestureRecognizer.enabled = YES;        
+        _tapGestureRecognizer.enabled = YES;
     } else {
-        // get default off image
-        UIImage* image = [UIImage imageNamed:kOffImageName];
-        [_wheelButton setImage:image forState:UIControlStateNormal];
+		
+        [_wheelButton setImage:self.offImage forState:UIControlStateNormal];
         
         // fold rosette
         [self fold];
@@ -111,12 +108,48 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)setImages:(NSArray *)images {    
+- (void)setImages:(NSArray *)images {
     // add leaves
     [self addLeaves];
     
     // add images
     [self addImages];
+}
+
+- (UIImage *)offImage
+{
+	if (!_offImage) {
+		_offImage = [UIImage imageNamed:kOffImageName];
+	}
+	return _offImage;
+}
+
+- (void)setOffImage:(UIImage *)offImage
+{
+	if (![offImage isEqual:_offImage]) {
+		_offImage = offImage;
+		if (!_on) {
+			[_wheelButton setImage:_offImage forState:UIControlStateNormal];
+		}
+	}
+}
+
+- (UIImage *)onImage
+{
+	if (!_onImage) {
+		_onImage = [UIImage imageNamed:kOnImageName];
+	}
+	return _onImage;
+}
+
+- (void)setOnImage:(UIImage *)onImage
+{
+	if (![onImage isEqual:_onImage]) {
+		_onImage = onImage;
+		if (_on) {
+			[_wheelButton setImage:_onImage forState:UIControlStateNormal];
+		}
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -151,7 +184,7 @@ CGFloat const kApertureAngle = 43.0f;
 - (void)addImages {
     // remove from superlayer
     [_imagesLayers makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
-
+	
     // clean array
     [_imagesLayers removeAllObjects];
     
@@ -165,14 +198,14 @@ CGFloat const kApertureAngle = 43.0f;
         CALayer* imageLayer = [CALayer layer];
         
         //        CIImage* iii = [CIImage imageWithCGImage:image.CGImage];
-        //        
-        //        CIFilter *filter = [CIFilter filterWithName:@"CIGloom" 
+        //
+        //        CIFilter *filter = [CIFilter filterWithName:@"CIGloom"
         //                                      keysAndValues: kCIInputImageKey, iii, nil];
         //        CIImage *outputImage = [filter outputImage];
-        //        
+        //
         //        CIContext *context = [CIContext contextWithOptions:nil];
-        //        
-        //        CGImageRef cgimg = 
+        //
+        //        CGImageRef cgimg =
         //        [context createCGImage:outputImage fromRect:[outputImage extent]];
         //        UIImage *newImg = [UIImage imageWithCGImage:cgimg];
         
@@ -185,7 +218,7 @@ CGFloat const kApertureAngle = 43.0f;
         imageLayer.opacity = 0.6f;
         
         [self.layer addSublayer:imageLayer];
-        [_imagesLayers addObject:imageLayer];        
+        [_imagesLayers addObject:imageLayer];
     }];
 }
 
@@ -193,10 +226,10 @@ CGFloat const kApertureAngle = 43.0f;
 - (void)addLeaves {
     // remove from superlayer
     [_leavesLayers makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
-
+	
     // clean array
     [_leavesLayers removeAllObjects];
-
+	
     // iterate all images
     [_items enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         // get image
@@ -220,18 +253,18 @@ CGFloat const kApertureAngle = 43.0f;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)wheelButtonAction:(id)sender {
-    [self toggleWithAnimation:YES];    
+    [self toggleWithAnimation:YES];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-//- (void)drawRect:(CGRect)rect {    
+//- (void)drawRect:(CGRect)rect {
 //    CGContextRef ctx = UIGraphicsGetCurrentContext();
 //    CGContextSetStrokeColorWithColor(ctx, [UIColor blueColor].CGColor);
 //    CGContextSetFillColorWithColor(ctx, [UIColor blueColor].CGColor);
 //
 //    CGFloat step = ((-1.0 * (M_PI / 2.0)) / 3);
 //    CGPoint pointA = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
-//    
+//
 //    for (NSInteger i=0; i<[_items count]; i++) {
 //        CGFloat width = 134.0f;
 //		CGFloat angle = (-1.0 * (M_PI / 2.0) * i);
@@ -250,7 +283,7 @@ CGFloat const kApertureAngle = 43.0f;
 //        [bezierPath closePath];
 //
 //        CGContextAddPath(ctx, bezierPath.CGPath);
-//        CGContextFillPath(ctx);        
+//        CGContextFillPath(ctx);
 //    }
 //}
 
@@ -310,7 +343,7 @@ CGFloat const kApertureAngle = 43.0f;
         CABasicAnimation* leafAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
         [leafAnimation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
         [leafAnimation setToValue:[NSValue valueWithCATransform3D:transform]];
-        [leafAnimation setFillMode:kCAFillModeForwards]; 
+        [leafAnimation setFillMode:kCAFillModeForwards];
         [leafAnimation setRemovedOnCompletion: NO];
         [leafAnimation setDuration:0.6f];
         
@@ -320,19 +353,19 @@ CGFloat const kApertureAngle = 43.0f;
         CABasicAnimation* scaleImageAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
         [scaleImageAnimation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
         [scaleImageAnimation setToValue:[NSValue valueWithCATransform3D:CATransform3DMakeScale(1.0f, 1.0f, 1.0f)]];
-        [scaleImageAnimation setFillMode:kCAFillModeForwards]; 
+        [scaleImageAnimation setFillMode:kCAFillModeForwards];
         [scaleImageAnimation setRemovedOnCompletion: NO];
         
         CGPoint point = CGPointMake(0.85*97.0f * cos(angle) + CGRectGetMidX(self.bounds), 0.85*97.0f * sin(angle) + CGRectGetMidY(self.bounds) - 11.0);
         CABasicAnimation* positionImageAnimation = [CABasicAnimation animationWithKeyPath:@"position"];
         [positionImageAnimation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
         [positionImageAnimation setToValue:[NSValue valueWithCGPoint:point]];
-        [positionImageAnimation setFillMode:kCAFillModeForwards]; 
+        [positionImageAnimation setFillMode:kCAFillModeForwards];
         [positionImageAnimation setRemovedOnCompletion: NO];
         
         CAAnimationGroup* group = [CAAnimationGroup animation];
         [group setAnimations:[NSArray arrayWithObjects:scaleImageAnimation, positionImageAnimation, nil]];
-        [group setFillMode:kCAFillModeForwards]; 
+        [group setFillMode:kCAFillModeForwards];
         [group setRemovedOnCompletion: NO];
         [group setDuration:0.3f];
         [group setBeginTime:CACurrentMediaTime () + 0.27f];
@@ -340,7 +373,7 @@ CGFloat const kApertureAngle = 43.0f;
         layer = [_imagesLayers objectAtIndex:i];
         [layer addAnimation:group forKey:@"show"];
         
-    }    
+    }
     
     [CATransaction commit];
 }
@@ -353,13 +386,13 @@ CGFloat const kApertureAngle = 43.0f;
     // restore proper scale and rotation
     for (NSInteger i=0; i<[_items count]; i++) {
         
-        CATransform3D transform = CATransform3DConcat(CATransform3DMakeScale(0.15f, 0.15f, 1.0f), 
+        CATransform3D transform = CATransform3DConcat(CATransform3DMakeScale(0.15f, 0.15f, 1.0f),
                                                       CATransform3DIdentity);
         
         CABasicAnimation* leafAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
         [leafAnimation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
         [leafAnimation setToValue:[NSValue valueWithCATransform3D:transform]];
-        [leafAnimation setFillMode:kCAFillModeForwards]; 
+        [leafAnimation setFillMode:kCAFillModeForwards];
         [leafAnimation setRemovedOnCompletion: NO];
         [leafAnimation setDuration:0.5f];
         [leafAnimation setBeginTime:CACurrentMediaTime () + 0.1f];
@@ -370,26 +403,26 @@ CGFloat const kApertureAngle = 43.0f;
         CABasicAnimation* scaleImageAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
         [scaleImageAnimation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
         [scaleImageAnimation setToValue:[NSValue valueWithCATransform3D:CATransform3DMakeScale(0.01f, 0.01f, 1.0f)]];
-        [scaleImageAnimation setFillMode:kCAFillModeForwards]; 
+        [scaleImageAnimation setFillMode:kCAFillModeForwards];
         [scaleImageAnimation setRemovedOnCompletion: NO];
         
         CGPoint point = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
         CABasicAnimation* positionImageAnimation = [CABasicAnimation animationWithKeyPath:@"position"];
         [positionImageAnimation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
         [positionImageAnimation setToValue:[NSValue valueWithCGPoint:point]];
-        [positionImageAnimation setFillMode:kCAFillModeForwards]; 
+        [positionImageAnimation setFillMode:kCAFillModeForwards];
         [positionImageAnimation setRemovedOnCompletion: NO];
         
         CAAnimationGroup* group = [CAAnimationGroup animation];
         [group setAnimations:[NSArray arrayWithObjects:scaleImageAnimation, positionImageAnimation, nil]];
-        [group setFillMode:kCAFillModeForwards]; 
+        [group setFillMode:kCAFillModeForwards];
         [group setRemovedOnCompletion: NO];
         [group setDuration:0.3f];
         
         layer = [_imagesLayers objectAtIndex:i];
         [layer addAnimation:group forKey:@"hide"];
         
-    }    
+    }
     
     [CATransaction commit];
 }
