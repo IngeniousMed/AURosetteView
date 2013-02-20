@@ -32,7 +32,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)initWithItems:(NSArray*)items {
-    self = [super initWithFrame:CGRectMake(0.0f, 0.0f, 168.0f, 168.0f)];
+    self = [super initWithFrame:CGRectMake(0.0f, 0.0f, 234.0f, 164.0f)];
     if (self) {
         _items = items;
 		
@@ -154,15 +154,19 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-    // test if our control subview is on-screen
-    if (_wheelButton.superview != nil) {
-        if ([touch.view isDescendantOfView:_wheelButton]) {
-            // we touched our control surface
-            return NO; // ignore the touch
-        }
-    }
-    
-    return YES; // handle the touch
+	if (_on) {
+		// test if our control subview is on-screen
+		if (_wheelButton.superview != nil) {
+			if ([touch.view isDescendantOfView:_wheelButton]) {
+				// we touched our control surface
+				return NO; // ignore the touch
+			}
+		}
+		
+		return YES; // handle the touch
+	} else {
+		return NO;
+	}
 }
 @end
 

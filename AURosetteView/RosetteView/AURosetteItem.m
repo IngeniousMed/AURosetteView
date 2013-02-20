@@ -7,10 +7,6 @@
 #import "AURosetteItem.h"
 
 @implementation AURosetteItem
-@synthesize action = _action;
-@synthesize target = _target;
-@synthesize normalImage =_normalImage;
-@synthesize highlightedImage = _highlightedImage;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)initWithNormalImage:(UIImage *)normalImage highlightedImage:(UIImage *)highlightedImage target:(id)target action:(SEL)action {
