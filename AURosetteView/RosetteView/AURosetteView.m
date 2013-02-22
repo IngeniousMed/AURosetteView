@@ -74,7 +74,7 @@
 - (void)layoutSubviews {
     CGRect rect = self.bounds;
     _wheelButton.frame = CGRectMake(CGRectGetMidX(rect) - 37.5f,
-                                    CGRectGetMidY(rect) - 33.5f, 75.0, 67.0f);
+                                    rect.size.height - 67.0f, 75.0, 67.0f);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -217,7 +217,7 @@ CGFloat const kApertureAngle = 43.0f;
         imageLayer.contents = (id)image.CGImage;
         imageLayer.frame = CGRectMake(0.0f, 0.0f, image.size.width, image.size.height);
         imageLayer.anchorPoint = CGPointMake(0.5f, 0.5f);
-        imageLayer.position = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
+        imageLayer.position = CGPointMake(CGRectGetMidX(self.bounds), self.bounds.size.height - 44.0f);
         imageLayer.transform = CATransform3DMakeScale(0.01f, 0.01f, 1.0f);
         imageLayer.opacity = 0.6f;
         
@@ -246,7 +246,7 @@ CGFloat const kApertureAngle = 43.0f;
         layer.contents = (id)image.CGImage;
         layer.frame = CGRectMake(0.0f, 0.0f, image.size.width, image.size.height);
         layer.anchorPoint = CGPointMake(0.0f, 0.5f);
-        layer.position = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds) - 11.0);
+        layer.position = CGPointMake(CGRectGetMidX(self.bounds), self.bounds.size.height - 44.0f);
         layer.transform = CATransform3DMakeScale(0.15f, 0.15f, 1.0f);
 		
         // add layer
@@ -260,68 +260,20 @@ CGFloat const kApertureAngle = 43.0f;
     [self toggleWithAnimation:YES];
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-//- (void)drawRect:(CGRect)rect {
-//    CGContextRef ctx = UIGraphicsGetCurrentContext();
-//    CGContextSetStrokeColorWithColor(ctx, [UIColor blueColor].CGColor);
-//    CGContextSetFillColorWithColor(ctx, [UIColor blueColor].CGColor);
-//
-//    CGFloat step = ((-1.0 * (M_PI / 2.0)) / 3);
-//    CGPoint pointA = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
-//
-//    for (NSInteger i=0; i<[_items count]; i++) {
-//        CGFloat width = 134.0f;
-//		CGFloat angle = (-1.0 * (M_PI / 2.0) * i);
-//		if (i == 0) {
-//			angle = ((-1.0 * (M_PI / 2.0)) / 3);
-//		} else if (i == 2) {
-//			angle = angle + ((1.0 * (M_PI / 2.0)) / 3);
-//		}
-//        CGPoint pointB = CGPointMake(pointA.x + cos(angle) * width, pointA.y + sin(angle) * width);
-//        CGPoint pointC = CGPointMake(pointA.x + cos(angle + step) * width, pointA.y + sin(angle + step) * width);
-//
-//        UIBezierPath* bezierPath = [UIBezierPath bezierPath];
-//        [bezierPath moveToPoint: pointA];
-//        [bezierPath addLineToPoint:pointB];
-//        [bezierPath addLineToPoint:pointC];
-//        [bezierPath closePath];
-//
-//        CGContextAddPath(ctx, bezierPath.CGPath);
-//        CGContextFillPath(ctx);
-//    }
-//}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)tapAction:(UITapGestureRecognizer*)tapGestureRecognizer {
-    
-    CGFloat step = ((-1.0 * (M_PI / 2.0)) / 3);
-    CGPoint pointA = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
-    
-    [_items enumerateObjectsUsingBlock:^(AURosetteItem* obj, NSUInteger idx, BOOL *stop) {
-        CGFloat width = 134.0f;
-		CGFloat angle = (-1.0 * (M_PI / 2.0) * idx);
-		if (idx == 0) {
-			angle = ((-1.0 * (M_PI / 2.0)) / 3);
-		} else if (idx == 2) {
-			angle = angle + ((1.0 * (M_PI / 2.0)) / 3);
-		}
-        CGPoint pointB = CGPointMake(pointA.x + cos(angle) * width, pointA.y + sin(angle) * width);
-        CGPoint pointC = CGPointMake(pointA.x + cos(angle + step) * width, pointA.y + sin(angle + step) * width);
-        
-        UIBezierPath* bezierPath = [UIBezierPath bezierPath];
-        [bezierPath moveToPoint: pointA];
-        [bezierPath addLineToPoint:pointB];
-        [bezierPath addLineToPoint:pointC];
-        [bezierPath closePath];
-        
-        CGPoint point = [tapGestureRecognizer locationInView:self];
-        if (CGPathContainsPoint(bezierPath.CGPath, NULL, point, NO)) {
+	
+	CGPoint point = [tapGestureRecognizer locationInView:self];
+    for (int idx = 0; idx < [_leavesLayers count]; idx++) {
+		CALayer *leafLayer = [_leavesLayers objectAtIndex:idx];
+		AURosetteItem *obj = [_items objectAtIndex:idx];
+		if ([[leafLayer presentationLayer] hitTest:point] || [leafLayer hitTest:point]) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
             [obj.target performSelector:obj.action withObject:self];
 #pragma clang diagnostic pop
         }
-    }];
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -352,6 +304,7 @@ CGFloat const kApertureAngle = 43.0f;
         [leafAnimation setDuration:0.3f];
         
         layer = [_leavesLayers objectAtIndex:i];
+		[layer removeAnimationForKey:@"fold"];
         [layer addAnimation:leafAnimation forKey:@"expand"];
         
         CABasicAnimation* scaleImageAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
@@ -360,7 +313,7 @@ CGFloat const kApertureAngle = 43.0f;
         [scaleImageAnimation setFillMode:kCAFillModeForwards];
         [scaleImageAnimation setRemovedOnCompletion: NO];
         
-        CGPoint point = CGPointMake(0.85*97.0f * cos(angle) + CGRectGetMidX(self.bounds), 0.85*97.0f * sin(angle) + CGRectGetMidY(self.bounds) - 11.0);
+        CGPoint point = CGPointMake(0.85*97.0f * cos(angle) + CGRectGetMidX(self.bounds), 0.85*97.0f * sin(angle) + self.bounds.size.height - 44.0);
         CABasicAnimation* positionImageAnimation = [CABasicAnimation animationWithKeyPath:@"position"];
         [positionImageAnimation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
         [positionImageAnimation setToValue:[NSValue valueWithCGPoint:point]];
@@ -402,6 +355,7 @@ CGFloat const kApertureAngle = 43.0f;
         [leafAnimation setBeginTime:CACurrentMediaTime () + 0.1f];
         
         CALayer* layer = [_leavesLayers objectAtIndex:i];
+		//[layer removeAnimationForKey:@"expand"];
         [layer addAnimation:leafAnimation forKey:@"fold"];
         
         CABasicAnimation* scaleImageAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
