@@ -57,7 +57,7 @@
         
         // add button
         _wheelButton = [[UIButton alloc] init];
-        [_wheelButton setImage:self.offImage forState:UIControlStateNormal];
+        [_wheelButton setBackgroundImage:self.offImage forState:UIControlStateNormal];
         [self addSubview:_wheelButton];
         
         // add target
@@ -88,7 +88,7 @@
     
     if (_on) {
         
-        [_wheelButton setImage:self.onImage forState:UIControlStateNormal];
+        [_wheelButton setBackgroundImage:self.onImage forState:UIControlStateNormal];
         
         // expand rosette
         [self expand];
@@ -97,7 +97,7 @@
         _tapGestureRecognizer.enabled = YES;
     } else {
 		
-        [_wheelButton setImage:self.offImage forState:UIControlStateNormal];
+        [_wheelButton setBackgroundImage:self.offImage forState:UIControlStateNormal];
         
         // fold rosette
         [self fold];
@@ -129,7 +129,7 @@
 	if (![offImage isEqual:_offImage]) {
 		_offImage = offImage;
 		if (!_on) {
-			[_wheelButton setImage:_offImage forState:UIControlStateNormal];
+			[_wheelButton setBackgroundImage:_offImage forState:UIControlStateNormal];
 		}
 	}
 }
@@ -147,7 +147,7 @@
 	if (![onImage isEqual:_onImage]) {
 		_onImage = onImage;
 		if (_on) {
-			[_wheelButton setImage:_onImage forState:UIControlStateNormal];
+			[_wheelButton setBackgroundImage:_onImage forState:UIControlStateNormal];
 		}
 	}
 }
