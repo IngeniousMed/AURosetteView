@@ -58,6 +58,10 @@
         // add button
         _wheelButton = [[UIButton alloc] init];
         [_wheelButton setBackgroundImage:self.offImage forState:UIControlStateNormal];
+		[_wheelButton.titleLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
+		[_wheelButton.titleLabel setTextColor:[UIColor whiteColor]];
+		[_wheelButton.titleLabel setShadowColor:[UIColor blackColor]];
+
         [self addSubview:_wheelButton];
         
         // add target
@@ -84,6 +88,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setOn:(BOOL)on animated:(BOOL)animated {
+	[self willChangeValueForKey:@"on"];
     _on = on;
     
     if (_on) {
@@ -105,6 +110,7 @@
         // disable tap gesture recognizer
         _tapGestureRecognizer.enabled = NO;
     }
+	[self didChangeValueForKey:@"on"];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -150,6 +156,12 @@
 			[_wheelButton setBackgroundImage:_onImage forState:UIControlStateNormal];
 		}
 	}
+}
+
+- (void)setForegroundImage:(UIImage *)image
+{
+	[_wheelButton setImage:image forState:UIControlStateNormal];
+	[_wheelButton setImage:image forState:UIControlStateSelected];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

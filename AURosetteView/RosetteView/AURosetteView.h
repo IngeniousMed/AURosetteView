@@ -39,4 +39,6 @@
 
 - (void)setOn:(BOOL)on animated:(BOOL)animated;
 - (void)toggleWithAnimation:(BOOL)animated;
+- (void)setForegroundImage:(UIImage *)image;
+
 @end
