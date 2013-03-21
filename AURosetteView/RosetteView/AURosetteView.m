@@ -61,7 +61,7 @@
 		[_wheelButton.titleLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
 		[_wheelButton.titleLabel setTextColor:[UIColor whiteColor]];
 		[_wheelButton.titleLabel setShadowColor:[UIColor blackColor]];
-
+		
         [self addSubview:_wheelButton];
         
         // add target
@@ -115,15 +115,20 @@
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
 {
-    UIView *hitView = [super hitTest:point withEvent:event];
-	
-    // If the hitView is THIS view, return nil and allow hitTest:withEvent: to
-    // continue traversing the hierarchy to find the underlying view.
-    if (hitView == self) {
-        return nil;
-    }
-    // Else return the hitView (as it could be one of this view's buttons):
-    return hitView;
+	if (_on) {
+		UIView *hitView = [super hitTest:point withEvent:event];
+		return hitView;
+	} else {
+		UIView *hitView = [super hitTest:point withEvent:event];
+		
+		// If the hitView is THIS view, return nil and allow hitTest:withEvent: to
+		// continue traversing the hierarchy to find the underlying view.
+		if (hitView == self) {
+			return nil;
+		}
+		// Else return the hitView (as it could be one of this view's buttons):
+		return hitView;
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
