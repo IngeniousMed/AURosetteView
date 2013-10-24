@@ -14,6 +14,7 @@
 @property (nonatomic, assign) id target;
 @property (nonatomic, strong) UIImage* normalImage;
 @property (nonatomic, strong) UIImage* highlightedImage;
+@property (nonatomic, strong) NSString *badgeText;
 
 - (id)initWithNormalImage:(UIImage *)normalImage highlightedImage:(UIImage *)highlightedImage target:(id)target action:(SEL)action;
 

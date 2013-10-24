@@ -32,10 +32,13 @@
  */
 @property (nonatomic, assign, getter = isOn) BOOL on;
 
+@property (nonatomic, strong) UIImage *onImage;
+@property (nonatomic, strong) UIImage *offImage;
+
 - (id)initWithItems:(NSArray*)items;
 
 - (void)setOn:(BOOL)on animated:(BOOL)animated;
 - (void)toggleWithAnimation:(BOOL)animated;
-- (void)addImages;
-- (void)addLeaves;
+- (void)setForegroundImage:(UIImage *)image;
+
 @end
