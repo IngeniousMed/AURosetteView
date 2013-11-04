@@ -78,7 +78,7 @@
 - (void)layoutSubviews {
     CGRect rect = self.bounds;
     _wheelButton.frame = CGRectMake(CGRectGetMidX(rect) - 37.5f,
-                                    rect.size.height - 67.0f, 75.0, 67.0f);
+                                    rect.size.height - 53.0f, 75.0, 67.0f);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
