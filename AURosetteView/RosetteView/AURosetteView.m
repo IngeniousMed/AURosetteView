@@ -77,8 +77,8 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)layoutSubviews {
     CGRect rect = self.bounds;
-    _wheelButton.frame = CGRectMake(CGRectGetMidX(rect) - 37.5f,
-                                    rect.size.height - 67.0f, 75.0, 67.0f);
+	_wheelButton.frame = CGRectMake(CGRectGetMidX(rect) - 33.5f,
+                                    rect.size.height - 60.0f, 67.0, 75.0f);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -277,7 +277,7 @@ CGFloat const kApertureAngle = 43.0f;
         layer.frame = CGRectMake(0.0f, 0.0f, image.size.width, image.size.height);
         layer.anchorPoint = CGPointMake(0.0f, 0.5f);
         layer.position = CGPointMake(CGRectGetMidX(self.bounds), self.bounds.size.height - 44.0f);
-        layer.transform = CATransform3DMakeScale(0.15f, 0.15f, 1.0f);
+        layer.transform = CATransform3DMakeScale(0.0f, 0.0f, 1.0f);
 		
         // add layer
         [self.layer addSublayer:layer];
@@ -373,7 +373,7 @@ CGFloat const kApertureAngle = 43.0f;
     // restore proper scale and rotation
     for (NSInteger i=0; i<[_items count]; i++) {
         
-        CATransform3D transform = CATransform3DConcat(CATransform3DMakeScale(0.15f, 0.15f, 1.0f),
+        CATransform3D transform = CATransform3DConcat(CATransform3DMakeScale(0.0f, 0.0f, 1.0f),
                                                       CATransform3DIdentity);
         
         CABasicAnimation* leafAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
