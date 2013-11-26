@@ -246,10 +246,24 @@ CGFloat const kApertureAngle = 43.0f;
         
         imageLayer.contents = (id)image.CGImage;
         imageLayer.frame = CGRectMake(0.0f, 0.0f, image.size.width, image.size.height);
-        imageLayer.anchorPoint = CGPointMake(0.5f, 0.5f);
+		switch (_imagesLayers.count) {
+			case 0:
+				imageLayer.anchorPoint = CGPointMake(0.6f, 0.5f);
+				break;
+			case 1:
+				imageLayer.anchorPoint = CGPointMake(0.5f, 0.25f);
+				break;
+			case 2:
+				imageLayer.anchorPoint = CGPointMake(0.3f, 0.5f);
+				break;
+				
+			default:
+				break;
+		}
+		
         imageLayer.position = CGPointMake(CGRectGetMidX(self.bounds), self.bounds.size.height - 44.0f);
         imageLayer.transform = CATransform3DMakeScale(0.01f, 0.01f, 1.0f);
-        imageLayer.opacity = 0.6f;
+        imageLayer.opacity = 1.0f;
         
         [self.layer addSublayer:imageLayer];
         [_imagesLayers addObject:imageLayer];
@@ -278,7 +292,7 @@ CGFloat const kApertureAngle = 43.0f;
         layer.anchorPoint = CGPointMake(0.0f, 0.5f);
         layer.position = CGPointMake(CGRectGetMidX(self.bounds), self.bounds.size.height - 44.0f);
         layer.transform = CATransform3DMakeScale(0.0f, 0.0f, 1.0f);
-		
+		layer.opacity=.95f;
         // add layer
         [self.layer addSublayer:layer];
         [_leavesLayers addObject:layer];
