@@ -48,7 +48,10 @@
         // array containing leaves layers
         _leavesLayers = [NSMutableArray new];
         _imagesLayers = [NSMutableArray new];
-        
+        self.arrayOfFirstLeafLayers = [NSMutableArray new];
+		self.arrayOfSecondLeafLayers = [NSMutableArray new];
+		self.arrayOfThirdLeafLayers = [NSMutableArray new];
+		
         // add leaves layers
         [self addLeaves];
         
@@ -293,10 +296,111 @@ CGFloat const kApertureAngle = 43.0f;
         layer.position = CGPointMake(CGRectGetMidX(self.bounds), self.bounds.size.height - 44.0f);
         layer.transform = CATransform3DMakeScale(0.0f, 0.0f, 1.0f);
 		layer.opacity=.95f;
+		
         // add layer
         [self.layer addSublayer:layer];
         [_leavesLayers addObject:layer];
     }];
+	
+	CALayer *firstLeafLayer1 = [CALayer layer];
+	firstLeafLayer1.frame = CGRectMake(0, 120-20, 106, 20);
+	firstLeafLayer1.backgroundColor = [UIColor clearColor].CGColor;
+	[self.layer addSublayer:firstLeafLayer1];
+
+	CALayer *firstLeafLayer2 = [CALayer layer];
+	firstLeafLayer2.frame = CGRectMake(2, 120-40, 93, 20);
+	firstLeafLayer2.backgroundColor = [UIColor clearColor].CGColor;
+	[self.layer addSublayer:firstLeafLayer2];
+
+	CALayer *firstLeafLayer3 = [CALayer layer];
+	firstLeafLayer3.frame = CGRectMake(5, 120-60, 80, 20);
+	firstLeafLayer3.backgroundColor = [UIColor clearColor].CGColor;
+	[self.layer addSublayer:firstLeafLayer3];
+
+	CALayer *firstLeafLayer4 = [CALayer layer];
+	firstLeafLayer4.frame = CGRectMake(10, 120-80, 65, 20);
+	firstLeafLayer4.backgroundColor = [UIColor clearColor].CGColor;
+	[self.layer addSublayer:firstLeafLayer4];
+
+	CALayer *firstLeafLayer5 = [CALayer layer];
+	firstLeafLayer5.frame = CGRectMake(20, 120-100, 45, 20);
+	firstLeafLayer5.backgroundColor = [UIColor clearColor].CGColor;
+	[self.layer addSublayer:firstLeafLayer5];
+	
+	[self.arrayOfFirstLeafLayers addObject:firstLeafLayer1];
+	[self.arrayOfFirstLeafLayers addObject:firstLeafLayer2];
+	[self.arrayOfFirstLeafLayers addObject:firstLeafLayer3];
+	[self.arrayOfFirstLeafLayers addObject:firstLeafLayer4];
+	[self.arrayOfFirstLeafLayers addObject:firstLeafLayer5];
+
+	CALayer *secondLeafLayer1 = [CALayer layer];
+	secondLeafLayer1.frame = CGRectMake(106, 120-20, 20, 20);
+	secondLeafLayer1.backgroundColor = [UIColor clearColor].CGColor;
+	[self.layer addSublayer:secondLeafLayer1];
+
+	CALayer *secondLeafLayer2 = [CALayer layer];
+	secondLeafLayer2.frame = CGRectMake(95, 120-40, 42, 20);
+	secondLeafLayer2.backgroundColor = [UIColor clearColor].CGColor;
+	[self.layer addSublayer:secondLeafLayer2];
+
+	CALayer *secondLeafLayer3 = [CALayer layer];
+	secondLeafLayer3.frame = CGRectMake(85, 120-60, 62, 20);
+	secondLeafLayer3.backgroundColor = [UIColor clearColor].CGColor;
+	[self.layer addSublayer:secondLeafLayer3];
+
+	CALayer *secondLeafLayer4 = [CALayer layer];
+	secondLeafLayer4.frame = CGRectMake(75, 120-80, 82, 20);
+	secondLeafLayer4.backgroundColor = [UIColor clearColor].CGColor;
+	[self.layer addSublayer:secondLeafLayer4];
+
+	CALayer *secondLeafLayer5 = [CALayer layer];
+	secondLeafLayer5.frame = CGRectMake(65, 120-100, 102, 20);
+	secondLeafLayer5.backgroundColor = [UIColor clearColor].CGColor;
+	[self.layer addSublayer:secondLeafLayer5];
+
+	CALayer *secondLeafLayer6 = [CALayer layer];
+	secondLeafLayer6.frame = CGRectMake(55, 120-120, 122, 20);
+	secondLeafLayer6.backgroundColor = [UIColor clearColor].CGColor;
+	[self.layer addSublayer:secondLeafLayer6];
+
+	[self.arrayOfSecondLeafLayers addObject:secondLeafLayer1];
+	[self.arrayOfSecondLeafLayers addObject:secondLeafLayer2];
+	[self.arrayOfSecondLeafLayers addObject:secondLeafLayer3];
+	[self.arrayOfSecondLeafLayers addObject:secondLeafLayer4];
+	[self.arrayOfSecondLeafLayers addObject:secondLeafLayer5];
+	[self.arrayOfSecondLeafLayers addObject:secondLeafLayer6];
+
+	CALayer *thirdLeafLayer1 = [CALayer layer];
+	thirdLeafLayer1.frame = CGRectMake(126, 120-20, 106, 20);
+	thirdLeafLayer1.backgroundColor = [UIColor clearColor].CGColor;
+	[self.layer addSublayer:thirdLeafLayer1];
+
+	CALayer *thirdLeafLayer2 = [CALayer layer];
+	thirdLeafLayer2.frame = CGRectMake(137, 120-40, 93, 20);
+	thirdLeafLayer2.backgroundColor = [UIColor clearColor].CGColor;
+	[self.layer addSublayer:thirdLeafLayer2];
+
+	CALayer *thirdLeafLayer3 = [CALayer layer];
+	thirdLeafLayer3.frame = CGRectMake(147, 120-60, 80, 20);
+	thirdLeafLayer3.backgroundColor = [UIColor clearColor].CGColor;
+	[self.layer addSublayer:thirdLeafLayer3];
+
+	CALayer *thirdLeafLayer4 = [CALayer layer];
+	thirdLeafLayer4.frame = CGRectMake(157, 120-80, 65, 20);
+	thirdLeafLayer4.backgroundColor = [UIColor clearColor].CGColor;
+	[self.layer addSublayer:thirdLeafLayer4];
+
+	CALayer *thirdLeafLayer5 = [CALayer layer];
+	thirdLeafLayer5.frame = CGRectMake(167, 120-100, 45, 20);
+	thirdLeafLayer5.backgroundColor = [UIColor clearColor].CGColor;
+	[self.layer addSublayer:thirdLeafLayer5];
+	
+	[self.arrayOfThirdLeafLayers addObject:thirdLeafLayer1];
+	[self.arrayOfThirdLeafLayers addObject:thirdLeafLayer2];
+	[self.arrayOfThirdLeafLayers addObject:thirdLeafLayer3];
+	[self.arrayOfThirdLeafLayers addObject:thirdLeafLayer4];
+	[self.arrayOfThirdLeafLayers addObject:thirdLeafLayer5];
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -308,16 +412,74 @@ CGFloat const kApertureAngle = 43.0f;
 - (void)tapAction:(UITapGestureRecognizer*)tapGestureRecognizer {
 	
 	CGPoint point = [tapGestureRecognizer locationInView:self];
-    for (int idx = 0; idx < [_leavesLayers count]; idx++) {
-		CALayer *leafLayer = [_leavesLayers objectAtIndex:idx];
-		AURosetteItem *obj = [_items objectAtIndex:idx];
-		if ([[leafLayer presentationLayer] hitTest:point] || [leafLayer hitTest:point]) {
+	int amountOfItems = 0;
+	AURosetteItem *selectedItem;
+	if ([_leavesLayers count] == 3 && [_items count] == 3)
+	{
+		if(!selectedItem)
+		{
+			for (CALayer *layer in self.arrayOfFirstLeafLayers)
+			{
+				CGPoint translatedPoint = [self.layer convertPoint:point toLayer:layer];
+				if([layer containsPoint:translatedPoint])
+				{
+					selectedItem = [_items objectAtIndex:2];
+					break;
+				}
+			}
+		}
+		if(!selectedItem)
+		{
+			for (CALayer *layer in self.arrayOfSecondLeafLayers)
+			{
+				CGPoint translatedPoint = [self.layer convertPoint:point toLayer:layer];
+
+				if([layer containsPoint:translatedPoint])
+				{
+					selectedItem = [_items objectAtIndex:1];
+					break;
+				}
+			}
+		}
+		if(!selectedItem)
+		{
+			for (CALayer *layer in self.arrayOfThirdLeafLayers)
+			{
+				CGPoint translatedPoint = [self.layer convertPoint:point toLayer:layer];
+				if([layer containsPoint:translatedPoint])
+				{
+					selectedItem = [_items objectAtIndex:0];
+					break;
+				}
+			}
+		}
+	}
+	else
+	{
+		for (int idx = 0; idx < [_leavesLayers count]; idx++) {
+			CALayer *leafLayer = [_leavesLayers objectAtIndex:idx];
+			
+			AURosetteItem *obj = [_items objectAtIndex:idx];
+			if ([[leafLayer presentationLayer] hitTest:point] || [leafLayer hitTest:point]) {
+				if(!selectedItem)
+				{
+					selectedItem = obj;
+				}
+				amountOfItems++;
+			}
+		}
+		
+		if(amountOfItems == 3)
+		{
+			selectedItem = [_items objectAtIndex:1];
+		}
+
+	}
+	
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-            [obj.target performSelector:obj.action withObject:self];
+		[selectedItem.target performSelector:selectedItem.action withObject:self];
 #pragma clang diagnostic pop
-        }
-	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
