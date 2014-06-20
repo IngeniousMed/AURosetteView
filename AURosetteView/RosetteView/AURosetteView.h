@@ -34,7 +34,9 @@
 
 @property (nonatomic, strong) UIImage *onImage;
 @property (nonatomic, strong) UIImage *offImage;
-
+@property(strong, nonatomic)NSMutableArray *arrayOfFirstLeafLayers;
+@property(strong, nonatomic)NSMutableArray *arrayOfSecondLeafLayers;
+@property(strong, nonatomic)NSMutableArray *arrayOfThirdLeafLayers;
 - (id)initWithItems:(NSArray*)items;
 
 - (void)setOn:(BOOL)on animated:(BOOL)animated;
